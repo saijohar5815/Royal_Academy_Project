@@ -1,28 +1,11 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Newspaper,
-  Calendar,
-  ArrowRight,
-  Bell,
-  School,
-  Search,
-  CheckCircle2,
-  Share2,
-  Bookmark,
-  ChevronRight,
-  Filter,
-  X,
-  Sparkles,
-  Link2,
-  Check,
-  BookOpen,
-  Download,
-  BookMarked
+import { 
+  BookOpen, BookMarked, ChevronRight, Download, Newspaper, 
+  School, ArrowRight, Share2, Filter, Search, Check, ArrowLeft, Bookmark, Sparkles
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar/Navbar";
-
-// --- News Page Mock Data ---
+// --- Mock Data Packages Ingest ---
 const featuredNews = {
   id: "FEAT-01",
   title: "Elementary Robotics Cohort Secures Global STEM Innovation Award",
@@ -97,33 +80,16 @@ const initialNews = [
   }
 ];
 
-// --- Interactive Curriculum Data Matrix ---
 const curriculumMatrix = {
   primary: {
     title: "Primary Wing (Grades 1 - 5)",
     tagline: "Building Foundational Core Logic & Immersive Environments",
     description: "Focuses on elementary literacy, early mathematical reasoning, and exploratory digital sciences through heavily gamified milestones.",
     subjects: [
-      {
-        id: "p1",
-        name: "Foundational English & Speech",
-        topics: ["Phonics & Decoding Strategies", "Interactive Storytelling", "Structural Mechanics & Grammar", "Creative Prose Workshop"]
-      },
-      {
-        id: "p2",
-        name: "Mathematics & Analytical Thinking",
-        topics: ["Number Sense & Quantities (1-1000)", "Geometric Spatial Recognition", "Basic Operations (+, -, *, /)", "Introductory Data Tallying"]
-      },
-      {
-        id: "p3",
-        name: "Environmental Science (EVS)",
-        topics: ["Community Ecosystems & Frameworks", "Botany & Zoic Life Cycles", "Conservation Systems (Water/Air)", "Personal Health & Micro-habits"]
-      },
-      {
-        id: "p4",
-        name: "Elementary Robotics & Code",
-        topics: ["Block Coding Structures (Scratch)", "Modular Lego Assemblies", "Visual Logic Arrays", "Algorithmic Loops Intro"]
-      }
+      { id: "p1", name: "Foundational English & Speech", topics: ["Phonics & Decoding Strategies", "Interactive Storytelling", "Structural Mechanics & Grammar", "Creative Prose Workshop"] },
+      { id: "p2", name: "Mathematics & Analytical Thinking", topics: ["Number Sense & Quantities (1-1000)", "Geometric Spatial Recognition", "Basic Operations (+, -, *, /)", "Introductory Data Tallying"] },
+      { id: "p3", name: "Environmental Science (EVS)", topics: ["Community Ecosystems & Frameworks", "Botany & Zoic Life Cycles", "Conservation Systems (Water/Air)", "Personal Health & Micro-habits"] },
+      { id: "p4", name: "Elementary Robotics & Code", topics: ["Block Coding Structures (Scratch)", "Modular Lego Assemblies", "Visual Logic Arrays", "Algorithmic Loops Intro"] }
     ]
   },
   middle: {
@@ -131,26 +97,10 @@ const curriculumMatrix = {
     tagline: "Transitioning to Specialized Theoretical & Practical Exploration",
     description: "Shifts young minds toward structured analytical research, computational abstractions, and deep inquiry across scientific tracks.",
     subjects: [
-      {
-        id: "m1",
-        name: "Integrated Sciences",
-        topics: ["Cellular Foundations & Microorganisms", "Kinematics, Forces & Energy Profiles", "Elements, Compounds & Mixtures", "Ecosystem Dynamics & Climate Data"]
-      },
-      {
-        id: "m2",
-        name: "Algebra & Discrete Mathematics",
-        topics: ["Fractional Scales & Decimals", "Linear Variables & Linear Equations", "Practical Coordinate Geometry", "Probability Distributions & Data Matrices"]
-      },
-      {
-        id: "m3",
-        name: "Social Infrastructures & Humanities",
-        topics: ["Ancient & Historical Civilizations", "Cartography & Topological Mapping", "Civic Rights & Modern Governance", "Resource Extraction Profiles"]
-      },
-      {
-        id: "m4",
-        name: "Applied Python & Web Mechanics",
-        topics: ["Python Syntactical Abstractions", "Basic Terminal Algorithms", "HTML5 & Structural Style Layers", "Digital Citizenship & Threat Safety"]
-      }
+      { id: "m1", name: "Integrated Sciences", topics: ["Cellular Foundations & Microorganisms", "Kinematics, Forces & Energy Profiles", "Elements, Compounds & Mixtures", "Ecosystem Dynamics & Climate Data"] },
+      { id: "m2", name: "Algebra & Discrete Mathematics", topics: ["Fractional Scales & Decimals", "Linear Variables & Linear Equations", "Practical Coordinate Geometry", "Probability Distributions & Data Matrices"] },
+      { id: "m3", name: "Social Infrastructures & Humanities", topics: ["Ancient & Historical Civilizations", "Cartography & Topological Mapping", "Civic Rights & Modern Governance", "Resource Extraction Profiles"] },
+      { id: "m4", name: "Applied Python & Web Mechanics", topics: ["Python Syntactical Abstractions", "Basic Terminal Algorithms", "HTML5 & Structural Style Layers", "Digital Citizenship & Threat Safety"] }
     ]
   },
   high: {
@@ -158,36 +108,16 @@ const curriculumMatrix = {
     tagline: "University Readiness, Advanced Placement, & Capstone Fields",
     description: "Advanced academic tracks crafted for global board requirements, college portfolio building, and vocational career pathways.",
     subjects: [
-      {
-        id: "h1",
-        name: "Advanced Mathematics & Calculus",
-        topics: ["Trigonometry Identities & Waves", "Differential & Integral Calculus", "Quadratic & Complex Polynomials", "Statistical Vectors & Proof Systems"]
-      },
-      {
-        id: "h2",
-        name: "Core Chemical & Physical Domains",
-        topics: ["Organic Carbon Mechanics", "Electromagnetism & Quantum Intro", "CRISPR Gene Sequences & Evolution", "Advanced Laboratory Diagnostic Methods"]
-      },
-      {
-        id: "h3",
-        name: "Economics & Corporate Globalism",
-        topics: ["Macroeconomic Market Frameworks", "Micro Analysis & Asset Valuation", "Double-Entry Ledger Architecture", "Global Business Strategies"]
-      },
-      {
-        id: "h4",
-        name: "AI Frameworks & Future Engineering",
-        topics: ["Supervised Machine Learning Modules", "Neural Network Architecture Intro", "Human-Centered UI/UX Engineering", "End-to-End Capstone Group Projects"]
-      }
+      { id: "h1", name: "Advanced Mathematics & Calculus", topics: ["Trigonometry Identities & Waves", "Differential & Integral Calculus", "Quadratic & Complex Polynomials", "Statistical Vectors & Proof Systems"] },
+      { id: "h2", name: "Core Chemical & Physical Domains", topics: ["Organic Carbon Mechanics", "Electromagnetism & Quantum Intro", "CRISPR Gene Sequences & Evolution", "Advanced Laboratory Diagnostic Methods"] },
+      { id: "h3", name: "Economics & Corporate Globalism", topics: ["Macroeconomic Market Frameworks", "Micro Analysis & Asset Valuation", "Double-Entry Ledger Architecture", "Global Business Strategies"] },
+      { id: "h4", name: "AI Frameworks & Future Engineering", topics: ["Supervised Machine Learning Modules", "Neural Network Architecture Intro", "Human-Centered UI/UX Engineering", "End-to-End Capstone Group Projects"] }
     ]
   }
 };
 
-
-
-
-// --- Main Page Component ---
 export default function NewsPage() {
-  const [currentPage, setCurrentPage] = useState("news");
+  const [currentPage, setCurrentPage] = useState("news"); // Views: "news" | "academics" | "article-detail"
   
   // News-specific states
   const [activeCategory, setActiveCategory] = useState("All");
@@ -202,11 +132,11 @@ export default function NewsPage() {
   const [selectedCohort, setSelectedCohort] = useState("high");
   const [selectedSubjectIndex, setSelectedSubjectIndex] = useState(0);
 
-  // Filter logic for news
+  // Filter logic for news room
   const filteredNews = initialNews.filter((article) => {
     const matchesCategory = activeCategory === "All" || article.category === activeCategory;
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          article.summary.toLowerCase().includes(searchQuery.toLowerCase());
+                          article.summary?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -216,7 +146,7 @@ export default function NewsPage() {
   };
 
   const handleToggleBookmark = (id, event) => {
-    event.stopPropagation();
+    event?.stopPropagation();
     const isBookmarked = bookmarkedIds.includes(id);
     setBookmarkedIds((prev) => 
       isBookmarked ? prev.filter(bId => bId !== id) : [...prev, id]
@@ -228,6 +158,12 @@ export default function NewsPage() {
     event?.stopPropagation();
     navigator.clipboard.writeText(window.location.href + `#${title.replace(/\s+/g, '-').toLowerCase()}`);
     showToast("Shareable institutional link copied to clipboard!");
+  };
+
+  const handleViewFullArticle = (article) => {
+    setActiveModalArticle(article);
+    setCurrentPage("article-detail");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSubscribe = (e) => {
@@ -267,7 +203,7 @@ export default function NewsPage() {
         osc2.stop(ctx.currentTime + 0.9);
       }
     } catch (err) {
-      console.warn("Audio chime context waiting on window user interaction layer", err);
+      console.warn("Audio chime context dropped interaction layers", err);
     }
 
     setSubscriptionState("success");
@@ -276,7 +212,6 @@ export default function NewsPage() {
     setTimeout(() => setSubscriptionState("idle"), 6000);
   };
 
-  // Automated document down-loader execution strategy
   const handleDownloadSyllabus = () => {
     const activeCohortData = curriculumMatrix[selectedCohort];
     const activeSubject = activeCohortData.subjects[selectedSubjectIndex];
@@ -286,56 +221,44 @@ export default function NewsPage() {
       return;
     }
 
-    // Build formal structural text format output content streams
     const documentContent = `========================================================================
 ACADEMIC MASTER RECORD DOSSIER: CURRICULUM SYLLABUS MATRIX
 GENESIS YEAR CYCLE: 2026 / 2027 STANDARDS
 ========================================================================
-
 COHORT SECTOR: ${activeCohortData.title.toUpperCase()}
 CLASSIFICATION FIELD: ${activeSubject.name.toUpperCase()}
 TOTAL TIMELINE BLOCKS: ${activeSubject.topics.length} Semesters Structure
-
-------------------------------------------------------------------------
-CORE SEMESTER TARGETS SEQUENCE MATRIX LOGS
 ------------------------------------------------------------------------
 ${activeSubject.topics.map((topic, index) => `[SEMESTER BLOCK 0${index + 1}] — ${topic}`).join("\n")}
-
 ------------------------------------------------------------------------
 AUTHENTICATION ENCRYPTED VALIDATION FOOTER
-* Synchronized directly to global board accreditation schemas.
 ========================================================================`;
 
     try {
-      // Form file blob payload and launch automatic silent programmatic client save pipeline
       const blob = new Blob([documentContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const downloadAnchor = document.createElement("a");
-      
       const fileStringSanitized = activeSubject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      
       downloadAnchor.href = url;
       downloadAnchor.download = `syllabus-${selectedCohort}-${fileStringSanitized}-matrix-2026.txt`;
-      
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
-      
-      // Cleanup DOM footprint trace references clean
       document.body.removeChild(downloadAnchor);
       URL.revokeObjectURL(url);
       
       showToast(`Syllabus dossier file generated and downloaded successfully!`);
     } catch (err) {
-      console.error("System storage stream permission layout failure:", err);
       showToast("Download failed. Local storage stream initialization error.");
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 antialiased font-sans relative overflow-x-hidden pb-20">
+      <Navbar />
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:32px_32px] opacity-80 pointer-events-none" />
       
-      <Navbar />
-
+      {/* Dynamic Toast Context Layer */}
       <AnimatePresence>
         {toastMessage && (
           <motion.div
@@ -350,7 +273,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
         )}
       </AnimatePresence>
 
-      {/* Floating Auxiliary Mini Sticky Navigation Action Controls */}
+      {/* Floating Auxiliary Viewport Jump-link button */}
       <div className="fixed bottom-6 right-6 z-40 shadow-2xl rounded-2xl overflow-hidden border border-slate-300">
         <button 
           onClick={() => setCurrentPage(currentPage === "academics" ? "news" : "academics")}
@@ -360,8 +283,9 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
         </button>
       </div>
 
-      {/* RENDER CONTROLLER (TERNARY CONDITIONAL SWITCH) */}
+      {/* ================= MAIN CONDITIONAL DISPLAY SWITCH CONTROLLER ================= */}
       {currentPage === "academics" ? (
+        /* SYLLABUS DISCOVERY WORKSPACE LAYER */
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-5 gap-4">
             <button 
@@ -426,7 +350,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
             animate={{ opacity: 1, y: 0 }}
             className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12"
           >
-            {/* Left Panel: Description and Navigation Toggles */}
+            {/* Left Panel: Navigation Subject Switches */}
             <div className="lg:col-span-5 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 p-6 sm:p-8 space-y-6">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -441,9 +365,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
               </div>
 
               <div className="space-y-3">
-                <h4 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
-                  Available Fields
-                </h4>
+                <h4 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">Available Fields</h4>
                 <div className="space-y-2">
                   {curriculumMatrix[selectedCohort].subjects.map((sub, idx) => {
                     const isSubjectSelected = selectedSubjectIndex === idx;
@@ -469,20 +391,18 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
               </div>
             </div>
 
-            {/* Right Panel: Content Viewport Blocks */}
+            {/* Right Panel: Active Topics Render Blocks */}
             <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-8">
               <div className="space-y-5">
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
                   <div>
-                    <span className="text-xs font-mono font-bold text-indigo-600 uppercase tracking-widest block">
-                      Active Target Mapping
-                    </span>
+                    <span className="text-xs font-mono font-bold text-indigo-600 uppercase tracking-widest block">Active Target Mapping</span>
                     <h3 className="text-2xl font-black text-slate-900 mt-0.5">
                       {curriculumMatrix[selectedCohort].subjects[selectedSubjectIndex]?.name}
                     </h3>
                   </div>
                   <span className="bg-slate-900 text-white text-sm font-mono font-bold px-3 py-1.5 rounded-lg">
-                    {curriculumMatrix[selectedCohort].subjects[selectedSubjectIndex]?.topics.length} Semesters Blocks
+                    {curriculumMatrix[selectedCohort].subjects[selectedSubjectIndex]?.topics.length} Semester Blocks
                   </span>
                 </div>
 
@@ -502,20 +422,103 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
               </div>
 
               <div className="pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-slate-400 font-mono">
-                <span>* Synchronized to 2026 Board Accreditation Standards</span>
+                <span>* Synchronized to 2026 Board Standards</span>
                 <button 
                   onClick={handleDownloadSyllabus}
                   className="inline-flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 font-bold uppercase transition-colors text-sm"
                 >
                   <Download size={16} />
-                  Download Syllabus PDF Matrix
+                  Download Syllabus Matrix
                 </button>
               </div>
             </div>
           </motion.div>
         </div>
+      ) : currentPage === "article-detail" && activeModalArticle ? (
+        /* ================= FULL COVERAGE DETAILED PUBLICATION DISPLAY VIEW ================= */
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8"
+        >
+          {/* Detailed View Navigation Return Actions */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-5">
+            <button 
+              onClick={() => {
+                setCurrentPage("news");
+                setActiveModalArticle(null);
+              }}
+              className="inline-flex items-center gap-2 text-sm font-mono font-bold text-slate-600 hover:text-indigo-600 transition-colors uppercase tracking-wider group"
+            >
+              <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+              Back to News Feed
+            </button>
+            <span className="text-xs font-mono text-slate-400 font-bold uppercase">
+              Dossier ID: {activeModalArticle.id}
+            </span>
+          </div>
+
+          {/* Heading Description Meta Data Section */}
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-3 py-1 rounded-md bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-mono font-bold uppercase">
+                {activeModalArticle.category}
+              </span>
+              <span className="px-3 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-700 text-xs font-mono font-bold uppercase">
+                {activeModalArticle.cohort}
+              </span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+              {activeModalArticle.title}
+            </h1>
+            <p className="text-slate-400 text-sm font-mono font-medium">
+              Published on: {activeModalArticle.date} • Institutional Press Hub
+            </p>
+          </div>
+
+          {/* Media Presentation Display Canvas */}
+          <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-md max-h-[480px]">
+            <img 
+              src={activeModalArticle.image} 
+              alt={activeModalArticle.title} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Core Editorial Description & Story Streams */}
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-sm">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800 leading-relaxed font-mono italic border-l-4 border-indigo-600 pl-4">
+              {activeModalArticle.summary || activeModalArticle.description}
+            </h3>
+            <p className="text-slate-600 text-lg leading-relaxed pt-2 whitespace-pre-line">
+              {activeModalArticle.fullContent}
+            </p>
+          </div>
+
+          {/* Bottom Action Control Bar Array */}
+          <div className="flex flex-wrap gap-3 pt-4">
+            <button 
+              onClick={(e) => handleToggleBookmark(activeModalArticle.id, e)}
+              className={`px-5 py-3.5 rounded-xl text-sm font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
+                bookmarkedIds.includes(activeModalArticle.id)
+                  ? "bg-amber-500 text-white shadow-md"
+                  : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
+              }`}
+            >
+              <Bookmark size={16} />
+              {bookmarkedIds.includes(activeModalArticle.id) ? "Saved in Registry" : "Save to Reading List"}
+            </button>
+            <button 
+              onClick={(e) => handleCopyLink(activeModalArticle.title, e)}
+              className="px-5 py-3.5 rounded-xl bg-slate-900 text-white text-sm font-mono font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-slate-800 transition-all"
+            >
+              <Share2 size={16} />
+              Broadcast Dossier Link
+            </button>
+          </div>
+        </motion.div>
       ) : (
-        /* CAMPUS BULLETIN & NEWSROOM VIEW */
+        /* ================= BASELINE CAMPUS BULLETIN & NEWSROOM COMPONENT VIEW ================= */
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-5 gap-2">
             <div className="flex items-center gap-3">
@@ -530,7 +533,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
             <span className="text-sm font-mono text-slate-400 font-bold">Academic Term: 2026 / 2027</span>
           </div>
 
-          {/* Hero Featured Article Banner */}
+          {/* Main Hero Highlight Story Block Banner */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -545,7 +548,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-100 text-amber-800 text-sm font-mono font-bold uppercase tracking-tight">
                     <School size={14} />
-                    {featuredNews.cohort.toUpperCase()} SCHOOL
+                    {featuredNews.cohort.toUpperCase()}
                   </span>
                 </div>
 
@@ -554,12 +557,12 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
                 </h1>
 
                 <p className="text-slate-600 text-lg sm:text-xl font-normal leading-relaxed">
-                  {featuredNews.summary}
+                  {featuredNews.description}
                 </p>
 
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
                   <button 
-                    onClick={() => setActiveModalArticle(featuredNews)}
+                    onClick={() => handleViewFullArticle(featuredNews)}
                     className="px-6 py-4 rounded-xl bg-indigo-600 text-white font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-indigo-700 active:scale-95 transition-all shadow-md"
                   >
                     Read Full Coverage
@@ -585,7 +588,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
             </div>
           </motion.section>
 
-          {/* Filtering Workspace Feed Section */}
+          {/* Filtering Central Control Console */}
           <section className="space-y-6 pt-4">
             <div className="flex flex-col lg:flex-row gap-5 items-stretch lg:items-center justify-between border-b border-slate-200 pb-6">
               <div className="space-y-1">
@@ -626,7 +629,7 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
               </div>
             </div>
 
-            {/* Grid Collection View */}
+            {/* Grid Catalog Collection List */}
             <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <AnimatePresence mode="popLayout">
                 {filteredNews.map((article) => (
@@ -638,111 +641,58 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
                     exit={{ opacity: 0, scale: 0.98 }}
                     className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 hover:border-slate-400 transition-all duration-300 flex flex-col justify-between"
                   >
-                    <div className="relative h-60 w-full overflow-hidden bg-slate-100 border-b border-slate-100">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-slate-900/90 backdrop-blur-md text-white text-xs font-mono font-bold px-3 py-1.5 rounded-lg border border-white/10 uppercase">
-                          {article.category}
-                        </span>
+                    <div>
+                      <div className="relative h-48 overflow-hidden bg-slate-100 border-b border-slate-100">
+                        <img 
+                          src={article.image} 
+                          alt={article.title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <button
+                          onClick={(e) => handleToggleBookmark(article.id, e)}
+                          className="absolute top-3 right-3 p-2 rounded-lg bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-600 hover:text-amber-500 transition-all shadow-sm"
+                        >
+                          <Bookmark size={15} fill={bookmarkedIds.includes(article.id) ? "currentColor" : "none"} />
+                        </button>
                       </div>
                       
-                      <button 
-                        onClick={(e) => handleToggleBookmark(article.id, e)}
-                        className={`absolute top-4 right-4 p-2.5 rounded-xl backdrop-blur-md transition-all shadow-md border ${
-                          bookmarkedIds.includes(article.id)
-                            ? "bg-indigo-600 text-white border-indigo-500"
-                            : "bg-white/90 text-slate-700 border-slate-200 hover:bg-white"
-                        }`}
-                      >
-                        <Bookmark size={18} fill={bookmarkedIds.includes(article.id) ? "currentColor" : "none"} />
-                      </button>
-                    </div>
-
-                    <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
-                      <div className="space-y-3">
-                        <div className="flex flex-wrap items-center gap-2 text-sm font-mono font-bold text-slate-400">
-                          <Calendar size={16} />
-                          <span>{article.date}</span>
-                          <span>•</span>
-                          <span className="text-indigo-600 uppercase">{article.cohort} school</span>
-                        </div>
-
-                        <h3 className="text-xl font-extrabold text-slate-900 leading-snug tracking-tight group-hover:text-indigo-600 transition-colors">
+                      <div className="p-5 space-y-2">
+                        <span className="text-xs font-mono font-bold text-indigo-600 uppercase tracking-wider block">
+                          {article.category}
+                        </span>
+                        <h3 className="text-lg font-extrabold text-slate-900 tracking-tight leading-snug line-clamp-2">
                           {article.title}
                         </h3>
-
-                        <p className="text-slate-600 text-base font-normal leading-relaxed line-clamp-3">
+                        <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 font-normal pt-1">
                           {article.summary}
                         </p>
                       </div>
+                    </div>
 
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                        <button 
-                          onClick={() => setActiveModalArticle(article)}
-                          className="text-base font-mono font-bold text-slate-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1"
-                        >
-                          <span>View Publication</span>
-                          <ChevronRight size={18} />
-                        </button>
-                        
-                        <button 
-                          onClick={(e) => handleCopyLink(article.title, e)}
-                          className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
-                          title="Copy article share link"
-                        >
-                          <Link2 size={18} />
-                        </button>
-                      </div>
+                    <div className="p-5 pt-0 border-t border-slate-50 mt-4 flex items-center justify-between">
+                      <span className="text-[11px] font-mono text-slate-400 font-bold uppercase">{article.date}</span>
+                      <button
+                        onClick={() => handleViewFullArticle(article)}
+                        className="text-xs font-mono font-black uppercase tracking-wider text-indigo-600 hover:text-indigo-800 transition-colors inline-flex items-center gap-1 group/btn"
+                      >
+                        View Publication
+                        <ChevronRight size={14} className="transition-transform group-hover/btn:translate-x-0.5" />
+                      </button>
                     </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
             </motion.div>
+
+            {/* Fallback Viewport for Empty Searching Logs */}
+            {filteredNews.length === 0 && (
+              <div className="text-center py-20 bg-white border border-slate-200 rounded-3xl shadow-sm">
+                <p className="text-slate-400 font-mono text-base font-bold">No active logs matching selection configuration rules found.</p>
+              </div>
+            )}
           </section>
 
-          {/* Academic Level Overview Cards */}
-          <section className="space-y-6 log-tier-section">
-            <div className="border-b border-slate-200 pb-4">
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">Academic Cohorts</h2>
-              <p className="text-base text-slate-500">Select an educational level to launch specific operational structures.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { key: "primary", title: "Primary Education", levels: "Grades 1 - 5", desc: "Foundational core logic, early software integration, and exploratory native literacy pipelines." },
-                { key: "middle", title: "Middle School Academy", levels: "Grades 6 - 8", desc: "Advanced cross-disciplinary sciences, algebraic frameworks, and structural programming introduction." },
-                { key: "high", title: "Senior High Graduation", levels: "Grades 9 - 12", desc: "Elite Advanced Placement/IB research tracks, machine learning, and university consultation portfolios." }
-              ].map((tier) => (
-                <div key={tier.title} className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-slate-400 transition-all group">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900">{tier.title}</h3>
-                    <span className="inline-block bg-slate-100 border border-slate-200 text-slate-700 text-sm font-mono font-bold px-3 py-1.5 rounded-lg">
-                      {tier.levels}
-                    </span>
-                    <p className="text-slate-600 text-base pt-1 leading-relaxed">{tier.desc}</p>
-                  </div>
-                  
-                  <button 
-                    onClick={() => {
-                      setSelectedCohort(tier.key);
-                      setSelectedSubjectIndex(0);
-                      setCurrentPage("academics");
-                    }}
-                    className="mt-8 w-full py-3.5 rounded-xl border border-slate-200 text-slate-800 font-mono font-bold text-sm uppercase tracking-tight group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all flex items-center justify-center gap-2"
-                  >
-                    <span>Explore Syllabus Focus</span>
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Parental Email Registration Footer Card */}
+          {/* Parental Email Registration Footer Card Insertion */}
           <section className="pt-4">
             <div className="rounded-3xl bg-slate-900 text-white p-6 sm:p-10 lg:p-14 relative overflow-hidden shadow-xl border border-slate-950">
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] [background-size:4rem_4rem] opacity-30 pointer-events-none" />
@@ -805,9 +755,3 @@ AUTHENTICATION ENCRYPTED VALIDATION FOOTER
     </div>
   );
 }
-
-
-
-
-
-
